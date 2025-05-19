@@ -5,13 +5,13 @@ const bcrypt = require('bcryptjs');
 
 const app = express();
 const PORT = 3001;
-const JWT_SECRET = 'sua_chave_secreta'; // Em produção, use variáveis de ambiente
+const JWT_SECRET = 'sua_chave_secreta'; 
 
 // Middleware
 app.use(cors());
 app.use(express.json());
 
-// Armazenamento em memória (simulando um banco de dados)
+// Armazenamento em memória 
 const users = [];
 
 // Middleware de autenticação
