@@ -16,10 +16,10 @@ export function Login() {
         password
       });
       
-      // Salva o token no localStorage
+      
       localStorage.setItem('token', response.data.token);
       
-      // Configura o token no axios para próximas requisições
+      
       axios.defaults.headers.common['Authorization'] = `Bearer ${response.data.token}`;
       
       alert('Login realizado com sucesso!');

@@ -37,15 +37,15 @@ app.post('/register', async (req, res) => {
   try {
     const { email, password } = req.body;
 
-    // Verifica se o usuário já existe
+    
     if (users.find(user => user.email === email)) {
       return res.status(400).json({ message: 'Usuário já existe' });
     }
 
-    // Hash da senha
+    
     const hashedPassword = await bcrypt.hash(password, 10);
 
-    // Cria novo usuário
+    
     const newUser = {
       id: users.length + 1,
       email,
@@ -64,19 +64,19 @@ app.post('/login', async (req, res) => {
   try {
     const { email, password } = req.body;
 
-    // Busca usuário
+    
     const user = users.find(user => user.email === email);
     if (!user) {
       return res.status(400).json({ message: 'Usuário não encontrado' });
     }
 
-    // Verifica senha
+    
     const validPassword = await bcrypt.compare(password, user.password);
     if (!validPassword) {
       return res.status(400).json({ message: 'Senha inválida' });
     }
 
-    // Gera token
+    
     const token = jwt.sign({ id: user.id, email: user.email }, JWT_SECRET, {
       expiresIn: '1h'
     });
@@ -88,12 +88,12 @@ app.post('/login', async (req, res) => {
 });
 
 app.get('/dashboard', authenticateToken, (req, res) => {
-  // Retorna lista de usuários (sem as senhas)
+
   const usersList = users.map(({ password, ...user }) => user);
   res.json(usersList);
 });
 
-// Adicionar usuário (dashboard)
+
 app.post('/users', authenticateToken, async (req, res) => {
   try {
     const { email, password } = req.body;
@@ -117,7 +117,7 @@ app.post('/users', authenticateToken, async (req, res) => {
   }
 });
 
-// Editar usuário
+
 app.put('/users/:id', authenticateToken, async (req, res) => {
   try {
     const { id } = req.params;
@@ -129,7 +129,7 @@ app.put('/users/:id', authenticateToken, async (req, res) => {
     }
 
     if (email) {
-      // Verifica se o novo email já existe em outro usuário
+      
       const emailExists = users.some(u => u.email === email && u.id != id);
       if (emailExists) {
         return res.status(400).json({ message: 'Email já está em uso' });
@@ -147,7 +147,7 @@ app.put('/users/:id', authenticateToken, async (req, res) => {
   }
 });
 
-// Excluir usuário
+
 app.delete('/users/:id', authenticateToken, async (req, res) => {
   try {
     const { id } = req.params;
